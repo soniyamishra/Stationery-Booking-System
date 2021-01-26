@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.capg.sbs.excel.ExcelService;
 import com.capg.sbs.pdf.ProductRestAPIs;
 
-@CrossOrigin("http://localhost:2211")
+@CrossOrigin
 @Controller
 @RequestMapping("/api/excel")
 public class ExcelController {

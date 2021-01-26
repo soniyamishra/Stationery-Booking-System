@@ -39,6 +39,11 @@ public class DeliveryTrackingService {
        	return deliveryTrackingRepository.findByDeliveryBookingId(bookingId);
  	}
  	
+ 	public DeliveryTracking getStatusByDeliveryId(int deliveryTrackingId) {
+       	return deliveryTrackingRepository.findByDeliveryTrackingId(deliveryTrackingId);
+ 	}
+ 	
+ 	
 	public int add(DeliveryTracking deliveryTracking) {
 		
 		ProductBooking booking = productBookingRepository.findByBookingId(deliveryTracking.getProductBooking().getBookingId());

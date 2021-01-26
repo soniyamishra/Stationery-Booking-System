@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="login")
-public class Login implements Serializable {
+public class Login2 implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -36,12 +36,12 @@ public class Login implements Serializable {
 	//@OneToMany(mappedBy = "product", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	//private Set<Review> review;
     
-    public Login()
+    public Login2()
     {
     	
     }
     
-	public Login(int userId, String username, String password, String role, String firstName, String lastName) {
+	public Login2(int userId, String username, String password, String role, String firstName, String lastName) {
 		super();
 		this.userId = userId;
 		this.username = username;

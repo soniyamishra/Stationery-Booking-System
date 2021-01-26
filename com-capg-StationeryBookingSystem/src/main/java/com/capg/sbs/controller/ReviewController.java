@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,9 +27,12 @@ import com.capg.sbs.entity.Product;
 import com.capg.sbs.entity.Review;
 import com.capg.sbs.service.ProductService;
 import com.capg.sbs.service.ReviewService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-@CrossOrigin
+
+
 @RestController
+@CrossOrigin
 public class ReviewController {
 	
 	@Autowired
@@ -59,6 +61,13 @@ public class ReviewController {
 			}
 	    return reviewService.getReviewByProductId(productId);
 	} 
+    
+    @GetMapping("/review/{reviewId}") 
+   	private Review getReview2(@PathVariable("reviewId") int reviewId) 
+   	{   
+       	logger.info("Getting list of Reviews of Specific ReviewID");
+   	    return reviewService.getReviewByReviewId(reviewId);
+   	} 
     
     @PostMapping("/review" ) 
     private ResponseEntity<String> saveReview(@Valid @RequestBody Review review) 
@@ -106,6 +115,31 @@ public class ReviewController {
 //         return reviewService.updateCommentAndRating(review);
  
 	}
+    
+    @PutMapping("/review/update1")         
+   	private Review updateReviews(@RequestBody Review review) throws ValidationException
+   	{	if(!(review.getRatingNumber() <= 5 || review.getRatingNumber() >=1))
+	   {   
+		 logger.warn("Rating number should be between 1 to 5");
+
+		 throw new ValidationException("Rating number should be between 1 to 5");
+	   }
+    	if(review.getReviewComment().isBlank())
+	  {
+		 logger.warn("Comment cannot be blank");
+
+		 throw new ValidationException("Your Comment has not updated ");
+	  }
+    	if(review.getRatingNumber()==0)
+  	  {
+  		 logger.warn("Rating Number has not Updated");
+
+  		 throw new ValidationException("Your Rating Number  has not updated ");
+  	  }
+    	return reviewService.updateReview2(review);
+//      return reviewService.updateCommentAndRating(review);
+    
+   	}
 	 
 	 @GetMapping("/review/avg/{productId}")
 	 public ResponseEntity<String> average(@PathVariable("productId") int productId) throws ValidationException {
@@ -150,3 +184,5 @@ public class ReviewController {
 //	  }
 
 }
+
+

@@ -23,6 +23,9 @@ public interface ProductBookingRepository extends JpaRepository<ProductBooking, 
 	@Query("UPDATE ProductBooking p set p.bookingCancelFlag='Y', p.bookingDeletedAt=?2  where p.bookingId=?1")
 	public int deleteBooking(int bookingId, LocalDateTime bookingDeletedAt);
 	
+	@Query("select p from ProductBooking p where p.login.userId=?1 AND p.bookingCancelFlag='N'")
+	List<ProductBooking> findByUserId(int userId);
+	
 	@Query("select p from ProductBooking p where p.bookingCancelFlag= 'N'")
 	List<ProductBooking> findAllBooking();
 	

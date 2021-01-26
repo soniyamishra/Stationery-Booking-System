@@ -45,6 +45,8 @@ public class DeliveryTrackingController {
 		return deliveryTrackingService.getAllStatus();
 	}
 	
+	
+	
 	//creating a get mapping that retrieves the detail of a specific DeliveryTracking
 		@GetMapping("/deliverytracking/{bookingId}")
 		private DeliveryTracking getStatus(@PathVariable("bookingId") int bookingId) throws ValidationException{
@@ -60,21 +62,48 @@ public class DeliveryTrackingController {
 			return deliveryTrackingService.getStatusByBookingId(bookingId);
 		}
 	
+		@GetMapping("/deliverytracking/id/{deliveryTrackingId}")
+		private DeliveryTracking getDeliveryByIdStatus(@PathVariable("deliveryTrackingId") int deliveryTrackingId) throws ValidationException{
+			
+			return deliveryTrackingService.getStatusByDeliveryId(deliveryTrackingId);
+		}
+	
 	//creating post mapping that post the DeliveryTracking detail in the database
 	@PostMapping("/deliverytracking") 
 	ResponseEntity<String> create(@Valid @RequestBody DeliveryTracking deliveryTracking) throws ValidationException
 	 { 	
+		
 		logger.info("Add Delivery Status ");
+		
+		int bookId = deliveryTracking.getProductBooking().getBookingId(); //getStatusByBookingId
+		DeliveryTracking dt = deliveryTrackingService.getStatusByBookingId(bookId);
+		
+		if( deliveryTracking.getDelieveryStatus() == null || deliveryTracking.getDelieveryStatus().isBlank())
+		{	
+			logger.warn("Delivery Tracking Id and Status is mandatory for updating ");
+			throw new ValidationException("Delivery Tracking Id and Status is mandatory for updating");
+		}
+		if(dt != null)
+		{
+			throw new ValidationException("Delivery Status is already added, you can update the delivery status ");
+		}
+		
+		
 		if(deliveryTrackingService.add(deliveryTracking) == 0)
 		{
 			throw new ValidationException("Booking is not conformed yet");
 		}
+		
+		
 		else {
 			logger.info(" Delivery Status added successfully");
 		    return ResponseEntity.ok("Sucessfully added"); 
+		    
 		}
 		
+		
 	 }
+	
 	
 	//creating put mapping that updates the Delivery status detail
 	@PutMapping("/deliverytracking")

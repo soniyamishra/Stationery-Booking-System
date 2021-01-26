@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.capg.sbs.controller.DeliveryTrackingController;
 import com.capg.sbs.entity.DeliveryTracking;
-import com.capg.sbs.entity.Login;
+import com.capg.sbs.entity.Login2;
 import com.capg.sbs.entity.Product;
 import com.capg.sbs.entity.ProductBooking;
 import com.capg.sbs.repository.DeliveryTrackingRepository;
@@ -75,7 +75,7 @@ public class DeliveryTrackingTesting {
 			String url = "http://localhost:2211/deliverytracking";
 			
 			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login login = new Login(1,"AartiSA","1234","user","aarti","saroj");
+			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
 			
 			ProductBooking productBooking= new ProductBooking(30,3,"ghatkoper","mumbai","maharshtra",3434,"PENDING","N",null,null,null,product,login);
 			DeliveryTracking deliveryTracking = new DeliveryTracking("NOT APPROVED",productBooking,null);
@@ -90,7 +90,7 @@ public class DeliveryTrackingTesting {
 		    RestTemplate restTemplate = new RestTemplate();
 		    String url = "http://localhost:2211/deliverytracking";
 			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login login = new Login(1,"AartiSA","1234","user","aarti","saroj");
+			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
 			ProductBooking productBooking= new ProductBooking(31,3,"ghatkoper","mumbai","maharshtra",3434,"PENDING","N",null,null,null,product,login);
 			DeliveryTracking deliveryTracking = new DeliveryTracking("NOT APPROVED",productBooking,null);
 			deliveryTrackingRepository.save(deliveryTracking);	

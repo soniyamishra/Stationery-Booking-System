@@ -56,6 +56,107 @@ public class ProductBookingController {
 		return productBookingService.getAllBooking();
 		
 	}
+	
+	@GetMapping("/productbooking/id/{bookingId}")
+	private ProductBooking getBookingById(@PathVariable("bookingId") int bookingId) throws ValidationException{
+		
+		return productBookingService.getBookingById(bookingId);
+	}
+
+	@GetMapping("/productbooking/{userId}")
+	public List<ProductBooking> getBookingsByUserId(@PathVariable("userId") int userId)
+	{	
+		logger.info("Getting  list of all ProductBooking");
+		return productBookingService.viewByUserId(userId);
+		
+	}
+	
+	
+	
+	
+	@PostMapping("/productbooking")
+	public ResponseEntity<String> addProductBooking(@Valid @RequestBody ProductBooking productBooking) throws ValidationException
+	{	
+		logger.info("Booking product");
+		
+		 if(productBooking.getAddress().isEmpty() || productBooking.getCity().isEmpty() || productBooking.getState().isEmpty() )
+		 {
+			 logger.warn("Fields cannot be blank");
+
+			 throw new ValidationException("Fields cannot be blank");
+		 }
+		 
+		 if(productBooking.getProductQuantity() == 0 )
+		 {
+			 logger.warn("Fields cannot be blank");
+
+			 throw new ValidationException("Fields cannot be blank");
+		 }
+		 
+		 
+		if(productBooking.getZipcode() == 0)
+			
+		{
+			logger.warn("Fields cannot be blank");
+			throw new ValidationException("Zipcode is mandatory for product booking");
+		}
+		String str = String.valueOf(productBooking.getZipcode());
+		
+		if(str.length() != 6)
+		{logger.warn("Fields cannot be blank");
+			throw new ValidationException("Zipcode should be of 6 digit");
+		}
+		if(productBookingService.addProduct(productBooking) == 1)
+		{	
+			logger.info("Product has been successfully booked");
+			return ResponseEntity.ok("Product has been successfully booked");
+			
+		}
+		else
+		{	
+			logger.warn("Product is not available for time being");
+			throw new ValidationException("Product is not available for time being");
+		}
+		
+		
+		
+	}
+
+	@PutMapping("productbooking/delete")
+	public  ResponseEntity<String> deleteBooking(@RequestBody ProductBooking productBooking) throws ValidationException
+	{   
+		logger.info("deleting ProductBooking");
+		
+		if(productBooking.getBookingId() == 0)
+		{
+			logger.warn("Fields cannot be blank");
+			throw new ValidationException("Product booking id is mandatory field to  cancel the booking");
+		}
+		
+		if(productBookingService.findBookingById(productBooking.getBookingId()) == null)
+			{	
+			    logger.warn("Booking does not exist");
+				throw new ValidationException("Booking does not exist");
+			}
+		productBookingService.deleteProductBooking(productBooking);
+		return ResponseEntity.ok("Booking is cancel sucessfully");
+		
+	}
+	
+	
+	/* @GetMapping("productbooking/{bookingId}")
+		private ProductBooking  getbookingById(@PathVariable("bookingId") int bookingId) {
+			return productBookingService.getbookingById(bookingId);
+		}
+	  
+	
+	@GetMapping("/productbooking")
+	public List<ProductBooking> getAllBooking1()
+	{	
+		logger.info("Getting  list of all ProductBooking");
+		return productBookingService.getAllBooking();
+		
+	}
 
 	@PostMapping("/productbooking")
 	public ResponseEntity<String> addProductBooking(@Valid @RequestBody ProductBooking productBooking) throws ValidationException
@@ -104,11 +205,12 @@ public class ProductBookingController {
 			    logger.warn("Booking does not exist");
 				throw new ValidationException("Booking does not exist");
 			}
-		
+		productBookingService.deleteProductBooking(productBooking);
 		return ResponseEntity.ok("Booking is cancel sucessfully");
 		
 	}
-	//===========================conformBooking===================================================================================
+	*/
+//===========================conformBooking==============================================================================================
 	
 	
 			@PutMapping("/ConformBooking") 
@@ -129,7 +231,7 @@ public class ProductBookingController {
 				System.out.println(flag);
 				if(flag == 2)
 				{
-					throw new ValidationException("Product is already cancel");
+					throw new ValidationException("Product is already" +productapproval.getApprovalStatus());
 				}
 				
 				ProductBooking booking = productbookingrepository.findByBookingId(productapproval.getBookingId());
@@ -165,7 +267,7 @@ public class ProductBookingController {
 				
 				if(flag == 0)
 				{
-					throw new ValidationException("Product is already conformed");
+					throw new ValidationException("Product is already confirmed");
 				}
 			
 				return ResponseEntity.ok("Booking Is Cancelled");

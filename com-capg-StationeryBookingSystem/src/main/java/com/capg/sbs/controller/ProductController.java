@@ -11,6 +11,7 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,6 +41,7 @@ public class ProductController {
     static Logger logger = Logger.getLogger(ProductController.class.getName());
     
 	//creating a get mapping that retrieves all the Product detail from the database
+     // @PreAuthorize("hasRole('ROLE_MANAGER')")
 	  @GetMapping("/product")
 	  private List<Product> getAllProductList() {
 		  logger.info("List of Products");
@@ -50,6 +52,7 @@ public class ProductController {
 		private Product  getProductById(@PathVariable("productId") int productId) {
 			return productService.getProductById(productId);
 		}
+	  
 		@GetMapping("product/allproduct")
 		private List<Product> viewAllProduct(){
 			return productService.viewAllProduct();

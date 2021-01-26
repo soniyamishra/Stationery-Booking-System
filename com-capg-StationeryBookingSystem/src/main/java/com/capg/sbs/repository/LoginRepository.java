@@ -2,11 +2,11 @@ package com.capg.sbs.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.capg.sbs.entity.Login;
+import com.capg.sbs.entity.Login2;
 
-public interface LoginRepository extends JpaRepository<Login,Integer>{
+public interface LoginRepository extends JpaRepository<Login2,Integer>{
 	
-	public Login findByUserId(int userId);
-	Login findByUsername(String username);
+	public Login2 findByUserId(int userId);
+	Login2 findByUsername(String username);
 
 }

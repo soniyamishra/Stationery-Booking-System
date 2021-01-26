@@ -69,7 +69,7 @@ public class Review implements  Serializable{
     
     @ManyToOne
 	@JoinColumn(name="user_id")
-    private Login login;
+    private Login2 login;
 	
     //@JsonBackReference("login")
 	//@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -97,7 +97,7 @@ public class Review implements  Serializable{
    
 	public Review(int reviewId, @NotBlank(message = "Comment should not be blank ") String reviewComment,
 		@NotNull(message = "Rating number is mandatory") @Min(value = 1, message = "The minimum value of rating number should be one ") @Max(value = 5, message = "The Maximum value of rating number should be five") int ratingNumber,
-		LocalDateTime reviewCreatedAt, LocalDateTime reviewUpdatedAt, Product product, Login login) {
+		LocalDateTime reviewCreatedAt, LocalDateTime reviewUpdatedAt, Product product, Login2 login) {
 	super();
 	this.reviewId = reviewId;
 	this.reviewComment = reviewComment;
@@ -140,12 +140,12 @@ public class Review implements  Serializable{
 	}
 
     
-	public Login getLogin() {
+	public Login2 getLogin() {
 		return login;
 	}
 
 	
-	public void setLogin(Login login) {
+	public void setLogin(Login2 login) {
 		this.login = login;
 	}
 	

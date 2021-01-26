@@ -23,6 +23,17 @@ public class ProductBookingService {
 	@Autowired
 	ProductRepository productRepository;
 	
+	public List<ProductBooking> viewByUserId(int userId)
+	{
+		return productBookingRepository.findByUserId(userId);
+		
+		
+	}
+	
+	public ProductBooking getBookingById(int bookingId) {
+       	return productBookingRepository.findByBookingId(bookingId);
+ 	}
+	
 	public List<ProductBooking> getAllBooking()
 	{
 		List<ProductBooking> productBooking=new ArrayList<ProductBooking>();
@@ -69,7 +80,7 @@ public class ProductBookingService {
 		  return productBookingRepository.findByBookingId(bookingId);
 	 }
 		
-	//==========================Conform Booking===============================================================================================
+	//==========================Confirm Booking===============================================================================================
 	  	
 	 
 		public int Conformbooking(ProductBooking productapproval) 
@@ -81,7 +92,7 @@ public class ProductBookingService {
 			int ProductCount  = product.getProductCount();
 			int flag =0;
 			
-			if(productbooking.getApprovalStatus().equals("CANCEL")) 
+			if(productbooking.getApprovalStatus().equals("CANCEL")||productbooking.getApprovalStatus().equals("CONFIRM") ) 
 			{
 				System.out.println("Approval Status: " +productbooking.getApprovalStatus());
 				flag = 2;
@@ -93,18 +104,16 @@ public class ProductBookingService {
 					ProductCount=ProductCount-ProductQuantity;
 					//System.out.println("Available count become  : "+ ProductCount);
 					product.setProductCount(ProductCount);
-					productbooking.setApprovalStatus("CONFORM");
+					productbooking.setApprovalStatus("CONFIRM");
 					productbooking.setBookingConformedAt(conformedAt);
 					productBookingRepository.save(productbooking);
 					flag = 1;
 				}
-				
-			
+							
 				else if(ProductQuantity > ProductCount)
 				{
-					
 					System.out.println("ProductQuantity : " + ProductQuantity + "is" + "greater than Product Count : " + ProductCount ); 
-					System.out.println("Need to UpdateBooking for Conform Booking");
+					System.out.println("Need to UpdateBooking for Confirm Booking");
 					flag = 0;
 				}
 			return flag;
@@ -118,10 +127,10 @@ public class ProductBookingService {
 			LocalDateTime deletedAt = LocalDateTime.now();
 			ProductBooking productbooking=productBookingRepository.findByBookingId(productapproval.getBookingId());
 			int flag =0;
-			if(productbooking.getApprovalStatus().equals("CONFORM"))
+			if(productbooking.getApprovalStatus().equals("CONFIRM"))
 			{
 				//System.out.println("The Product Booking is Already CONFORMED.");
-				System.out.println("Approval Status: " +productbooking.getApprovalStatus());
+				System.out.println("Approval Status : " +productbooking.getApprovalStatus());
 				flag = 0;
 			}
 			else 
@@ -147,14 +156,14 @@ public class ProductBookingService {
 			int ProductCount  = product1.getProductCount();
 			int flag =0;
 			
-			if(productbooking.getApprovalStatus().equals("CANCEL") || productbooking.getApprovalStatus().equals("CONFORM"))
+			if(productbooking.getApprovalStatus().equals("CANCEL") || productbooking.getApprovalStatus().equals("CONFIRM"))
 			{
-					System.out.println("Approval Status is Already: " +productbooking.getApprovalStatus());
+					System.out.println("Approval Status is Already : " +productbooking.getApprovalStatus());
 					flag=0;
 			}
-			 if(ProductQuantity > ProductCount)
+			 if(ProductQuantity > ProductCount && ProductCount!=0)
 			{
-					productbooking.setApprovalStatus("CONFORM");
+					productbooking.setApprovalStatus("CONFIRM");
 					
 					ProductQuantity=ProductCount;
 					productbooking.setProductQuantity(ProductCount);
@@ -166,6 +175,11 @@ public class ProductBookingService {
 			}
 				
 			return flag;
+		}
+
+
+		public ProductBooking getbookingById(int bookingId) {
+			return productBookingRepository.findByBookingId(bookingId);
 		}
 	 
 }

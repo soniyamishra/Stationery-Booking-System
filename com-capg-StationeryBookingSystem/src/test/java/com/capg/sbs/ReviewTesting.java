@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.capg.sbs.entity.Login;
+import com.capg.sbs.entity.Login2;
 import com.capg.sbs.entity.Product;
 import com.capg.sbs.entity.Review;
 import com.capg.sbs.repository.ProductRepository;
@@ -36,7 +36,7 @@ public class ReviewTesting {
 		    RestTemplate restTemplate = new RestTemplate();
 			String url = "http://localhost:2211/review";
 			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login login = new Login(1,"AartiSA","1234","user","aarti","saroj");
+			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
 			Review review= new Review(1,"Good",3,null,null,product,login);
 		  
 			reviewRepository.save(review);	
@@ -50,7 +50,7 @@ public class ReviewTesting {
 		    RestTemplate restTemplate = new RestTemplate();
 			String url = "http://localhost:2211/review";
 			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login login = new Login(1,"AartiSA","1234","user","aarti","saroj");
+			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
 			Review review= new Review(4,"Good",3,null,null,product,login);
 			reviewRepository.save(review);	
 //			Review review= new Review(1,1,786,"good",3,null,null);
