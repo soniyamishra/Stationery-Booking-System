@@ -8,16 +8,12 @@ class ViewBooking extends React.Component
     {
         super(props);    
         this.state={AllBooking:[],errMsg:""}  
-        this.deleteBooking=this.deleteBooking.bind(this)  ;
-    }
-    deleteBooking(id)
-    {
-        console.log("successfully cancelled"+id);
+       
     }
     componentDidMount()
     {
         console.log(" In ShowAllEmpComponent  componentDidMount  excecuted");
-        axios.get(" http://localhost:3000/proBookings")       
+        axios.get(" http://localhost:2211/productbooking")       
         .then((responseBooking)=>{console.log(responseBooking);
         this.setState({AllBooking:responseBooking.data})
         })
@@ -28,42 +24,39 @@ class ViewBooking extends React.Component
     render()
     {  
         var bookingList=this.state.AllBooking.map(
-            (bok,index)=>
+            (booking,index)=>
             {
-              return (<tr key={bok.id}>
-                  <td>{bok.id}</td>
-                  <td>{bok.quantity}</td>
-                  <td>{bok.address}</td>
-                  <td>{bok.city}</td>
-                  <td>{bok.state1}</td>
-                  <td>{bok.zipcode}</td>
-                  <td>
-                  <Link className="btn btn-outline-primary mr-2"  to={`/proBookings/delete/${bok.id}`}>Booking Cancle </Link>
-                  </td>
+              return (<tr  key={booking.bookingId}>
+                  <td>{booking.product.productName}</td>
+                  <td>{booking.product.productPrice}</td>
+                  <td>{booking.productQuantity}</td>
+                  <td>{booking.address}{booking.city}</td>
+                  <td>{booking.state}</td>
+                  <td>{booking.zipcode}</td>
+                  <td> <NavLink exact  to={`/DeleteBooking/${booking.bookingId}`} button className="mr-4 btn btn-success">Booking Cancel</NavLink></td>
+                         
                   </tr>)
             }
        );
-        return( 
-            <div className="py-4">
-            <table class="table border shadow" >
-            <thead class="thead-dark">
-              <h4  align="center" padding="200px"> All Bookings </h4>  
-            </thead>
-              <tbody> 
-            <table border="1" class="table border shadow">  
-            <tr> 
+    return( 
+        <div className="py-4">
+             
+            <table class="table table-striped table-hover"  border="3">
+            
+            <tr class="tr_top">
+                <td colspan = "7"> <h2 align="center" padding="200px"> All Bookings </h2></td>
 
-                <th>Booking ID</th>
+            </tr>
+            <tr> 
+                <th>Product Name</th>
+                <th>Product Price</th>
                 <th>Product Quantity</th>
-               <th>Address</th> 
-               <th>City</th> 
-               <th>State</th> 
-               <th>Zipcode</th>   
-               <th>Action</th>            
+                <th>Address</th> 
+                <th>State</th> 
+                <th>Zipcode</th>   
+                <th>Action</th>            
             </tr>  
                { bookingList} 
-            </table> 
-            </tbody>  
             </table>
         </div>
         )

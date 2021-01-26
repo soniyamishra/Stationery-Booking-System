@@ -1,43 +1,129 @@
-import logo from './logo.svg';
-import './App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/SideBar"
-import './sidebar.css';
-import {BrowserRouter as Router,Route,Link ,NavLink}
-from "react-router-dom";
-import ShowAllProduct from "./components/ShowAllProduct";
-import ProductBooking from "./components/ProductBooking";
-import UpdateDeliveryStatus from "./components/UpdateDeliveryStatus";
-import AddDeliveryStatus from "./components/AddDeliveryStatus";
-import ViewBooking from "./components/ViewBooking";
-import DeleteBooking from "./components/DeleteBooking";
-import AddReview from './components/AddReview';
-import UpdateReview from './components/UpdateReview';
-import ViewDeliveryStatus from './components/ViewDeliveryStatus';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Router, Switch, Route, Link } from "react-router-dom";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
-function App(props) {
+import Login from "./components/Login";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import AdminHomePage from './components/AdminHomePage'
+import ManagerHomePage from './components/ManagerHomePage'
+import CustomerHomePage from './components/CustomerHomePage'
+import { logout } from "./actions/auth";
+import { clearMessage } from "./actions/message";
+
+import { history } from "./helpers/history";
+
+const App = () => {
+  const [showManagerBoard, setShowManagerBoard] = useState(false);
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [showCustomerBoard,setShowCustomerBoard] = useState(false);
+
+  const { user: currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    history.listen((location) => {
+      dispatch(clearMessage()); // clear message when changing location
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (currentUser) {
+      setShowManagerBoard(currentUser.roles.includes("ROLE_MANAGER"));
+      setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
+      setShowCustomerBoard(currentUser.roles.includes("ROLE_CUSTOMER"));
+    }
+  }, [currentUser]);
+
+  const logOut = () => {
+    dispatch(logout());
+  };
+
   return (
-    <div>
-        <Router>
-        <Navbar/>
-          <Route path="/ShowAllProduct" component={ShowAllProduct}></Route>
-          <Route path="/Sidebar" component={Sidebar}></Route>
-          <Route path="/ProductBooking" component={ProductBooking}></Route>
-          <Route path="/UpdateDeliveryStatus" component={UpdateDeliveryStatus}></Route>
-          <Route path="/AddDeliveryStatus" component={AddDeliveryStatus}></Route>
-          <Route path="/ViewBooking" component={ViewBooking}></Route>
-          <Route path="/products/delete/:id"   component={DeleteBooking}     />
-          <Route path="/AddReview" component={AddReview}></Route>
-          <Route path="/UpdateReview" component={UpdateReview}></Route>
-          <Route path="/ViewDeliveryStatus" component={ViewDeliveryStatus}></Route>
-          {/*<Route path="/ConfirmBooking/:BookingId" component={ConfirmBooking} />
-          <Route path="/CancelBooking/:BookingId" component={Cancelooking} />
-          <Route path="/UpdateBooking/:BookingId" component={UpdateBooking} />*/}
-        </Router>
-    </div>
+    <Router history={history}>
+      <div>
+        <nav className="navbar navbar-expand navbar-dark bg-dark">
+          {/* <Link to={"/"} className="navbar-brand">
+            bezKoder
+          </Link>
+          <div className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link to={"/home"} className="nav-link">
+                Home
+              </Link>
+            </li> 
+          <div className="navbar-nav mr-auto">
+            {showManagerBoard && (
+              <li className="nav-item">
+                <Link to={"/manager"} className="nav-link">
+                  Manager Board
+                </Link>
+              </li>
+            )}
+*/}         <div className ="navbar-nav mr-auto">
+            {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/admin"} className="nav-link">
+                  Admin Board
+                </Link>
+                </li>
+            )}
+            {showManagerBoard && (
+              <li className="nav-item">
+                <Link to={"/manager"} className="nav-link">
+                  Manager Board
+                </Link>
+              </li>
+            )}
+            {showCustomerBoard && (
+              <li className="nav-item">
+                <Link to={"/customer"} className="nav-link">
+                  Customer Board
+                </Link>
+              </li>
+            )}
+          </div> 
+
+          {currentUser ? (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  {currentUser.username}
+                </Link>
+              </li>
+              <li className="nav-item">
+                <a href="/login" className="nav-link" onClick={logOut}>
+                  Logout
+                </a>
+              </li>
+            </div>
+          ) : (
+            <div className="navbar-nav">
+              <li className="nav-item">
+                <Link to={"/login"} className="nav-link">
+                  Login
+                </Link>
+              </li>
+            </div>
+          )}
+        </nav>
+
+        <div className="container mt-3">
+          <Switch>
+            <Route exact path={["/", "/home"]} component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/profile" component={Profile} />
+            <Route path="/admin" component={AdminHomePage} />
+            <Route path="/customer" component={CustomerHomePage} />
+            <Route path="/manager" component={ManagerHomePage} />
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

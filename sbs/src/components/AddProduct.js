@@ -4,6 +4,24 @@ import axios from "axios";
 //from "react-router-dom";
 //import axios from "axios";
 //import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+  function isvalid(val) {
+    let  validProductFieldName = RegExp('[A-Za-z0-9\s]+');
+    if(validProductFieldName.test(val)){
+      return true;
+    }
+    else{
+        return false;
+    }
+ }
+
+//  const validProductFieldName = RegExp('[A-Za-z0-9\s]+');
+
+//  const validateForm = errorMessage => {
+//     let valid = true;
+//     Object.values(errorMessage).forEach(val => val.length > 0 && (valid = false));
+//     return valid;
+//   };
+
 class AddProduct extends React.Component
 {   
     constructor(props)
@@ -19,12 +37,62 @@ class AddProduct extends React.Component
             productDeletedAt : null,
             productUpdatedAt : null,
             productDeletedFlag : 'N',
+            errors:{
+                productName :"",
+                productModel : "",
+                productBrand : "",
+                productPrice : "",
+                productCount : "",
+            }
         } 
         this.handleChange=this.handleChange.bind(this) ;
     }
 
     handleChange(event)
     {   
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.errors;
+    
+    switch (name) {
+        case 'productName': 
+            errors.productName = 
+            value.length <2
+            ? 'Product Name must be 2 characters long!'
+            : '';
+        break;
+        case 'productModel': 
+        errors.productModel = 
+            value.length <2
+            ? 'Product Name must be 2 characters long!'
+            : '';
+        break;
+        case 'productBrand': 
+        errors.productBrand = 
+            value.length <2
+            ? 'Product Name must be 2 characters long!'
+            : '';
+        break;
+        case 'productPrice': 
+        errors.productPrice = 
+            value.length ===0
+            ? 'Product Price cannot be null or 0!'
+            : '';
+        break;
+        case 'productCount': 
+        errors.productCount = 
+            value.length ===0
+            ? 'Product Price cannot be null or 0!'
+            : '';
+        break;
+        default:
+        break;
+     }
+
+        this.setState({errors, [name]: value}, ()=> {
+            console.log(errors)
+        });
+
         this.setState({
             ...this.state,
             [event.target.name] : event.target.value
@@ -33,12 +101,53 @@ class AddProduct extends React.Component
 
     handleSubmit = (event)=>{
         event.preventDefault();
+        console.log(this.state.productCount)
+        if(this.state.productName === null || this.state.productBrand === null || this.state.productModel ===null ||
+            this.state.productPrice.length === 0 || this.state.productCount.length === 0)
+          {     
+              
+              alert("All Field are mandatory")
+          }
+        else if(this.state.productName.length === 0)
+        {
+            alert("Product Name is Mandtory Field")
+        }
+        else if(this.state.productName.length < 2)
+        {
+            alert("Product Name must be 2 characters long!")
+        }
+        else if(this.state.productBrand.length === 0)
+        {
+            alert("Product Brand is Mandtory Field")
+        }
+        else if(this.state.productBrand.length < 2)
+        {
+            alert("Product Brand must be 2 characters long!")
+        }
+        else if(this.state.productModel.length === 0)
+        {
+            alert("Product Model is Mandtory Field")
+        }
+        else if(this.state.productModel.length < 2)
+        {
+            alert("Product Model must be 2 characters long!")
+        }
+        // else if(isvalid(this.state.productName) || isvalid(this.state.productModel) || isvalid(this.state.productBrand))
+        // {
+        //     alert("Product Name,Model and Brand can contain characters and digits only")
+        // }
+       else
+       {
         axios.post(`http://localhost:2211/product`, {
-            ...this.state,
+            productName: this.state.productName,
+            productModel: this.state.productModel,
+            productBrand: this.state.productBrand,
+            productPrice: this.state.productPrice,
+            productCount: this.state.productCount,
           })
           .then(function (response) {
             console.log(response);
-            
+            alert("Product is added successfully");
           })
           .then(
               ()=>{
@@ -56,9 +165,10 @@ class AddProduct extends React.Component
               }
           )
           .catch(function (error) {
-            console.log(error);
+             alert("Some thing went wrong !.. 'Invalid Data or network issue'")
           })
-
+        }
+     
     }
 
     render(){
@@ -83,7 +193,9 @@ class AddProduct extends React.Component
                             value = {this.state.productName}
                             onChange={this.handleChange}
                             />
+                            <div>{this.state.errors.productName}</div>
                         </div>
+                        
                         <div className="col-md-6">
                             <label for="productModel" className="form-label">Model Name</label>
                             <input 
@@ -96,8 +208,9 @@ class AddProduct extends React.Component
                             value = {this.state.productModel}
                             onChange={this.handleChange}
                             />
+                            <div>{this.state.errors.productModel}</div>
                         </div>
-                    
+                       
                         <div className="col-md-6">
                             <label for="productBrand" className="form-label">Brand Name</label>
                             <input 
@@ -110,7 +223,9 @@ class AddProduct extends React.Component
                             value = {this.state.productBrand}
                             onChange={this.handleChange}
                             />
+                             <div>{this.state.errors.productBrand}</div>
                         </div>
+                       
                         <div className="col-md-6">
                             <label for="productCount" className="form-label">Available Count</label>
                             <input 
@@ -122,7 +237,9 @@ class AddProduct extends React.Component
                             value = {this.state.productCount}
                             onChange={this.handleChange}
                             />
+                             <div>{this.state.errors.productCount}</div>
                         </div>
+                       
                         <div className="col-md-6 mb-4">
                             <label for="productPrice" className="form-label">Product Price</label>
                             <input 
@@ -134,7 +251,9 @@ class AddProduct extends React.Component
                             value = {this.state.productPrice}
                             onChange={this.handleChange}
                             />
+                             <div>{this.state.errors.productPrice}</div>
                         </div>
+                       
                         <div className="col-12">
                             <div className="row">
                                 <div className ="col-2">
