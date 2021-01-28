@@ -59,7 +59,7 @@ public class ProductController {
 		}
 	  
 	  
-	
+		//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	  @PostMapping("/product") 
 	  ResponseEntity<String> createProduct(@Valid @RequestBody Product product) throws ValidationException
 	   {  

@@ -57,13 +57,21 @@ public class ProductBookingController {
 		
 	}
 	
+	@GetMapping("/productbooking/{id}")
+	public List<ProductBooking> getBookingsById(@PathVariable("id") Long id)
+	{	
+		logger.info("Getting  list of all ProductBooking");
+		return productBookingService.viewById(id);
+		
+	}
+	
 	@GetMapping("/productbooking/id/{bookingId}")
 	private ProductBooking getBookingById(@PathVariable("bookingId") int bookingId) throws ValidationException{
 		
 		return productBookingService.getBookingById(bookingId);
 	}
 
-	@GetMapping("/productbooking/{userId}")
+	@GetMapping("/productbooking/userid/{userId}")
 	public List<ProductBooking> getBookingsByUserId(@PathVariable("userId") int userId)
 	{	
 		logger.info("Getting  list of all ProductBooking");

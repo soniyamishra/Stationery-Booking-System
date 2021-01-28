@@ -45,6 +45,11 @@ public class DeliveryTrackingController {
 		return deliveryTrackingService.getAllStatus();
 	}
 	
+	@GetMapping("/deliverytracking/userid/{id}")
+	private List<DeliveryTracking> getDeliveryByUserIdStatus(@PathVariable("id") long id) throws ValidationException{
+		
+		return deliveryTrackingService.viewByUserId(id);
+	}
 	
 	
 	//creating a get mapping that retrieves the detail of a specific DeliveryTracking

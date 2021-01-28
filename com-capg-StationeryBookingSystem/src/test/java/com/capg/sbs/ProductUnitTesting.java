@@ -55,7 +55,7 @@ public class ProductUnitTesting {
 	public void testAddDeleteProduct()
 	{	
 		RestTemplate restTemplate = new RestTemplate();
-		String urlAddProduct = "http://localhost:2211/product";
+		String urlAddProduct = "http://localhost:8080/product";
 		Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
 		repo.save(product);
 		Product[] products = restTemplate.getForObject(urlAddProduct,Product[].class);
@@ -86,7 +86,7 @@ public class ProductUnitTesting {
 	public void testErrorHandlingForDeleteProduct()
 	{
 		RestTemplate restTemplate = new RestTemplate();
-		String url = "http://localhost:2211/product/delete";
+		String url = "http://localhost:8080/product/delete";
 		try {
 			restTemplate.getForEntity(url,String.class);
 		}

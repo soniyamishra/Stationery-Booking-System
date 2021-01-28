@@ -23,9 +23,9 @@ public class ProductBookingService {
 	@Autowired
 	ProductRepository productRepository;
 	
-	public List<ProductBooking> viewByUserId(int userId)
+	public List<ProductBooking> viewByUserId(long id)
 	{
-		return productBookingRepository.findByUserId(userId);
+		return productBookingRepository.findById(id);
 		
 		
 	}
@@ -69,7 +69,11 @@ public class ProductBookingService {
 	       	productBookingRepository.findAll().forEach(productbooking1 -> productbooking.add(productbooking1));
 	       	return productbooking;
 	 	}
-
+	  public List<ProductBooking> viewById(Long id)
+		{
+			return productBookingRepository.findById(id);
+		}
+	  
 	 public ProductBooking saveOrUpdate(ProductBooking pb) 
 	 {
 		return productBookingRepository.save(pb);
@@ -79,6 +83,7 @@ public class ProductBookingService {
 	 {
 		  return productBookingRepository.findByBookingId(bookingId);
 	 }
+	 
 		
 	//==========================Confirm Booking===============================================================================================
 	  	

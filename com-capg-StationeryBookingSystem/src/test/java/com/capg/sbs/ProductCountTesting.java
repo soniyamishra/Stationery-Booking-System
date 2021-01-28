@@ -24,7 +24,7 @@ public class ProductCountTesting {
 		
 	@Test
 	public void testViewByProductName() {
-		String url1="http://localhost:2211/product/viewby/productname/pen";
+		String url1="http://localhost:8080/product/viewby/productname/pen";
 		RestTemplate restTemplate = new RestTemplate();
 
 		Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
@@ -37,7 +37,7 @@ public class ProductCountTesting {
 	
 	@Test
 	public void testForViewByBrandName() {
-		String url1="http://localhost:2211/product/viewby/brandname/doms";
+		String url1="http://localhost:8080/product/viewby/brandname/doms";
 		RestTemplate restTemplate = new RestTemplate();
 
 		Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
@@ -50,7 +50,7 @@ public class ProductCountTesting {
 	
 	@Test
 	public void testForViewByModelName() {
-		String url1="http://localhost:2211/product/viewby/modelname/dark";
+		String url1="http://localhost:8080/product/viewby/modelname/dark";
 		RestTemplate restTemplate = new RestTemplate();
 
 		Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
@@ -62,7 +62,7 @@ public class ProductCountTesting {
 	
 	@Test
 	public void testForProductUpdate() {
-		String url1="http://localhost:2211/product";
+		String url1="http://localhost:8080/product";
 		RestTemplate restTemplate = new RestTemplate();
 
 		Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
@@ -81,7 +81,7 @@ public class ProductCountTesting {
 	public void testErrorHandlingForProductName() {
 		RestTemplate restTemplate= new RestTemplate();
 		
-		String url="http://localhost:2211/product/viewby/productname/pen,";
+		String url="http://localhost:8080/product/viewby/productname/pen,";
 		try {
 			restTemplate.getForEntity(url, String.class);
 		}
@@ -95,7 +95,7 @@ public class ProductCountTesting {
 	public void testErrorHandlingforBrandName() {
 		RestTemplate restTemplate= new RestTemplate();
 		
-		String url="http://localhost:2211/product/viewby/brandname/doma";
+		String url="http://localhost:8080/product/viewby/brandname/doma";
 		try {
 			restTemplate.getForEntity(url, String.class);
 		}
@@ -106,7 +106,7 @@ public class ProductCountTesting {
 	public void testErrorHandlingforModelName() {
 		RestTemplate restTemplate= new RestTemplate();
 
-		String url="http://localhost:2211/product/viewby/modelname/dasrk";
+		String url="http://localhost:8080/product/viewby/modelname/dasrk";
 		try {
 			restTemplate.getForEntity(url, String.class);
 		}
@@ -119,7 +119,7 @@ public class ProductCountTesting {
 	public void testErrorHandlingforUpdateProductCountAndPrice() {
 		RestTemplate restTemplate= new RestTemplate();
 
-		String url="http://localhost:2211/product/update";
+		String url="http://localhost:8080/product/update";
 		try {
 			restTemplate.getForEntity(url, String.class);
 		}

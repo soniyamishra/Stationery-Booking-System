@@ -28,7 +28,7 @@ class ProductRestAPITest {
 	@Test
 	void test() {
 		RestTemplate restTemplate = new RestTemplate();
-		String url="http://localhost:2211/api/pdf/products";
+		String url="http://localhost:8080/api/pdf/products";
 		try
 		{
 			restTemplate.getForEntity(url, String.class);

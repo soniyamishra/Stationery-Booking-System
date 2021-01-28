@@ -44,7 +44,7 @@ public class Review implements  Serializable{
 	@NotBlank(message="Comment should not be blank ")
     private String reviewComment;
 	
-	
+
 	@NotNull(message= "Rating number is mandatory")
 	@Min(value=1, message="The minimum value of rating number should be one ")
 	@Max(value=5, message="The Maximum value of rating number should be five")
@@ -68,8 +68,8 @@ public class Review implements  Serializable{
 	private Product product;
     
     @ManyToOne
-	@JoinColumn(name="user_id")
-    private Login2 login;
+	@JoinColumn(name="id")
+    private User user;
 	
     //@JsonBackReference("login")
 	//@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -97,7 +97,7 @@ public class Review implements  Serializable{
    
 	public Review(int reviewId, @NotBlank(message = "Comment should not be blank ") String reviewComment,
 		@NotNull(message = "Rating number is mandatory") @Min(value = 1, message = "The minimum value of rating number should be one ") @Max(value = 5, message = "The Maximum value of rating number should be five") int ratingNumber,
-		LocalDateTime reviewCreatedAt, LocalDateTime reviewUpdatedAt, Product product, Login2 login) {
+		LocalDateTime reviewCreatedAt, LocalDateTime reviewUpdatedAt, Product product, User user) {
 	super();
 	this.reviewId = reviewId;
 	this.reviewComment = reviewComment;
@@ -105,7 +105,7 @@ public class Review implements  Serializable{
 	this.reviewCreatedAt = reviewCreatedAt;
 	this.reviewUpdatedAt = reviewUpdatedAt;
 	this.product = product;
-	this.login = login;
+	this.user = user;
     }
 	
 	public Review(int reviewId, @NotBlank(message = "Comment should not be blank ") String reviewComment,
@@ -128,6 +128,16 @@ public class Review implements  Serializable{
 		this.reviewComment = reviewComment;
 		this.ratingNumber = ratingNumber;
 	}
+	
+	
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 
 	public Product getProduct() {
@@ -140,15 +150,7 @@ public class Review implements  Serializable{
 	}
 
     
-	public Login2 getLogin() {
-		return login;
-	}
 
-	
-	public void setLogin(Login2 login) {
-		this.login = login;
-	}
-	
 	public LocalDateTime getReviewCreatedAt() {
 		return reviewCreatedAt;
 	}

@@ -14,6 +14,7 @@ import com.capg.sbs.entity.DeliveryTracking;
 import com.capg.sbs.entity.Login2;
 import com.capg.sbs.entity.Product;
 import com.capg.sbs.entity.ProductBooking;
+import com.capg.sbs.entity.User;
 import com.capg.sbs.repository.ProductBookingRepository;
 import com.capg.sbs.repository.ProductRepository;
 import com.capg.sbs.service.ProductBookingService;
@@ -59,25 +60,25 @@ public class ProductApprovalTest {
 	public void testProductbookingConform()
 	{
 		RestTemplate restTemplate = new RestTemplate();
-		String urlConformbooking = "http://localhost:2211/productbooking";
+		String urlConformbooking = "http://localhost:8080/productbooking";
 		Product  product =new Product(1 , "pen" , "dark" , "doms" , 20.1 , 50 , "N" , null , null ,null);
-		Login2 login=new Login2(1 , "mona123" , "mona" ,"admin" , "Monika" ,"Desai");
-		ProductBooking productbooking =new ProductBooking(1, 5, "ghatkopar", "Mumbai", "maharashtra", 4000, "PENDING FOR APPROVAL", "N", null, null, null, product, login);
+		User user = new User(1L,"admin" , "soniya" ,"Arti" ,"Saroj", "ROLE_ADMIN");
+		ProductBooking productbooking =new ProductBooking(1, 5, "ghatkopar", "Mumbai", "maharashtra", 4000, "PENDING FOR APPROVAL", "N", null, null, null, product, user);
 		productBookingrepository.save(productbooking);
 		ProductBooking booking=new ProductBooking(1);
 		productbookingService.Conformbooking(booking);
 		ProductBooking[] productbookings=restTemplate.getForObject(urlConformbooking, ProductBooking[].class);
-		Assertions.assertThat(productbookings).extracting(ProductBooking::getApprovalStatus).contains("CONFORM");
+		Assertions.assertThat(productbookings).extracting(ProductBooking::getApprovalStatus).contains("CONFIRM");
 	}
 
 	@Test
 	public void testProductbookingCancel()
 	{
 		RestTemplate restTemplate = new RestTemplate();
-		String urlConformbooking = "http://localhost:2211/productbooking";
+		String urlConformbooking = "http://localhost:8080/productbooking";
 		Product  product =new Product(1 , "pen" , "dark" , "doms" , 20.1 , 50 , "N" , null , null ,null);
-		Login2 login=new Login2(1 , "mona123" , "mona" ,"admin" , "Monika" ,"Desai");
-		ProductBooking productbooking =new ProductBooking(1, 5, "ghatkopar", "Mumbai", "maharashtra", 4000, "PENDING FOR APPROVAL", "N", null, null, null, product, login);		
+		User user = new User(1L,"admin" , "soniya" ,"Arti" ,"Saroj", "ROLE_ADMIN");
+		ProductBooking productbooking =new ProductBooking(1, 5, "ghatkopar", "Mumbai", "maharashtra", 4000, "PENDING FOR APPROVAL", "N", null, null, null, product, user);		
 		productBookingrepository.save(productbooking);
 		ProductBooking booking=new ProductBooking(1);
 		productbookingService.Cancelbooking(booking);
@@ -91,15 +92,15 @@ public class ProductApprovalTest {
 	{
 		
 		RestTemplate restTemplate = new RestTemplate();
-		String urlConformbooking = "http://localhost:2211/productbooking";
+		String urlConformbooking = "http://localhost:8080/productbooking";
 		Product  product =new Product(1 , "pen" , "dark" , "doms" , 20.1 , 50 , "N" , null , null ,null);
-		Login2 login=new Login2(1 , "mona123" , "mona" ,"admin" , "Monika" ,"Desai");
-		ProductBooking productbooking =new ProductBooking(1, 55, "ghatkopar", "Mumbai", "maharashtra", 4000, "PENDING FOR APPROVAL", "N", null, null, null, product, login);
+		User user = new User(1L,"admin" , "soniya" ,"Arti" ,"Saroj", "ROLE_ADMIN");
+		ProductBooking productbooking =new ProductBooking(1, 55, "ghatkopar", "Mumbai", "maharashtra", 4000, "PENDING FOR APPROVAL", "N", null, null, null, product, user);
 		productBookingrepository.save(productbooking);
 		ProductBooking booking=new ProductBooking(1);
 		productbookingService.Updatebooking(booking);
 		ProductBooking[] productbookings=restTemplate.getForObject(urlConformbooking, ProductBooking[].class);
-		Assertions.assertThat(productbookings).extracting(ProductBooking::getApprovalStatus).contains("PENDING FOR CONFORM");
+		Assertions.assertThat(productbookings).extracting(ProductBooking::getApprovalStatus).contains("CONFIRM");
 			
 	}
 	

@@ -43,11 +43,14 @@ public class DeliveryTrackingService {
        	return deliveryTrackingRepository.findByDeliveryTrackingId(deliveryTrackingId);
  	}
  	
+ 	public List<DeliveryTracking> viewByUserId(long id) {
+       	return deliveryTrackingRepository.findByUserId(id);
+ 	}
  	
 	public int add(DeliveryTracking deliveryTracking) {
 		
 		ProductBooking booking = productBookingRepository.findByBookingId(deliveryTracking.getProductBooking().getBookingId());
-		if(booking.getApprovalStatus().equals("CONFORM"))
+		if(booking.getApprovalStatus().equals("CONFIRM"))
 			{
 				deliveryTrackingRepository.save(deliveryTracking);
 				return 1;

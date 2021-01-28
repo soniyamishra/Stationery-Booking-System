@@ -16,6 +16,7 @@ import com.capg.sbs.controller.ProductBookingController;
 import com.capg.sbs.entity.Login2;
 import com.capg.sbs.entity.Product;
 import com.capg.sbs.entity.ProductBooking;
+import com.capg.sbs.entity.User;
 import com.capg.sbs.repository.ProductBookingRepository;
 import com.capg.sbs.service.ProductBookingService;
 
@@ -36,10 +37,10 @@ public class ProductBookingTesting {
 	  public void testProductBookingByAddress() 
 	     {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/productbooking";
+			String url = "http://localhost:8080/productbooking";
 			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
-			ProductBooking pb= new ProductBooking(1,22,"chembure","mumbai","maharashtra",4090,"PENDING","N",null,null,null,product,login);
+			User user = new User(1L,"admin" , "soniya" ,"Arti" ,"Saroj", "ROLE_ADMIN");
+			ProductBooking pb= new ProductBooking(1,22,"chembure","mumbai","maharashtra",4090,"PENDING","N",null,null,null,product,user);
 			productBookingRepository.save(pb);
      		//Review review= new Review(1,"Good",3,null,null,product,login);
 			ProductBooking[] pbs = restTemplate.getForObject(url, ProductBooking[].class);
@@ -52,10 +53,10 @@ public class ProductBookingTesting {
 	  public void testProductBookingForDeleting() 
 	     {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/productbooking";
+			String url = "http://localhost:8080/productbooking";
 			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
-			ProductBooking pb= new ProductBooking(10,22,"chembure","mumbai","maharashtra",4090,"PENDING","N",null,null,null,product,login);
+			User user = new User(1L,"admin" , "soniya" ,"Arti" ,"Saroj", "ROLE_ADMIN");
+			ProductBooking pb= new ProductBooking(10,22,"chembure","mumbai","maharashtra",4090,"PENDING","N",null,null,null,product,user);
 			
 			productBookingRepository.save(pb);
 //			Review review= new Review(1,"Good",3,null,null,product,login);
@@ -73,7 +74,7 @@ public class ProductBookingTesting {
 	  public void testForGettingAllProductBookingForExceptionHandling() 
 	  {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/productbooking";
+			String url = "http://localhost:8080/productbooking";
 			try {
 				restTemplate.getForEntity(url, String.class);
 				

@@ -17,5 +17,8 @@ public interface DeliveryTrackingRepository extends JpaRepository<DeliveryTracki
 	
 	DeliveryTracking findByDeliveryTrackingId(int deliveryTrackingId);
 	
+	@Query("select d from DeliveryTracking d where d.productBooking.user.id= ?1")
+    List<DeliveryTracking> findByUserId(long id);
+	
 
 }

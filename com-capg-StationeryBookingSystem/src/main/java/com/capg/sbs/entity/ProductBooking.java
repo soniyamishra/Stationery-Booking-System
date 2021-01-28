@@ -85,8 +85,8 @@ public class ProductBooking implements Serializable {
 	//private Product product;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id")
-	private Login2 login;
+	@JoinColumn(name="id")
+	private User user;
 	
 	
 	
@@ -102,15 +102,21 @@ public class ProductBooking implements Serializable {
 	
     
     
-	public Login2 getLogin() {
-		return login;
-	}
+	
 	
 	public ProductBooking()
 	{
 		
 	}
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public ProductBooking(int bookingId) {
 		super();
 		this.bookingId = bookingId;
@@ -123,7 +129,7 @@ public class ProductBooking implements Serializable {
 			@NotBlank(message = "State is Mandatory") @Pattern(regexp = "[a-zA-Z_.]*", message = "State cannot contain special characters") String state,
 			@NotNull(message = "Zipcode is Mandatory") int zipcode, String approvalStatus, String bookingCancelFlag,
 			LocalDateTime bookingDeletedAt, LocalDateTime bookingConformedAt, LocalDateTime bookingUpdatedAt,
-			Product product, Login2 login) {
+			Product product, User user) {
 		super();
 		this.bookingId = bookingId;
 		this.productQuantity = productQuantity;
@@ -137,12 +143,10 @@ public class ProductBooking implements Serializable {
 		this.bookingConformedAt = bookingConformedAt;
 		this.bookingUpdatedAt = bookingUpdatedAt;
 		this.product = product;
-		this.login = login;
+		this.user = user;
 	}
 
-	public void setLogin(Login2 login) {
-		this.login = login;
-	}
+
 	
 	public Product getProduct() {
 		return product;

@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.capg.sbs.entity.Login2;
 import com.capg.sbs.entity.Product;
 import com.capg.sbs.entity.Review;
+import com.capg.sbs.entity.User;
 import com.capg.sbs.repository.ProductRepository;
 import com.capg.sbs.repository.ReviewRepository;
 import com.capg.sbs.service.ReviewService;
@@ -34,10 +35,10 @@ public class ReviewTesting {
 	  public void reviewAddReviewTest() 
 	     {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/review";
+			String url = "http://localhost:8080/review";
 			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
-			Review review= new Review(1,"Good",3,null,null,product,login);
+			User user = new User(2L,"customer" , "soniya" ,"Priya" ,"Yadav", "ROLE_CUSTOMER");
+			Review review= new Review(1,"Good",3,null,null,product,user);
 		  
 			reviewRepository.save(review);	
 			Review[] reviews = restTemplate.getForObject(url, Review[].class);
@@ -48,10 +49,10 @@ public class ReviewTesting {
 	  public void testForReviewUpdate() 
 	   {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/review";
+			String url = "http://localhost:8080/review";
 			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
-			Review review= new Review(4,"Good",3,null,null,product,login);
+			User user = new User(2L,"customer" , "soniya" ,"Priya" ,"Yadav", "ROLE_CUSTOMER");
+			Review review= new Review(4,"Good",3,null,null,product,user);
 			reviewRepository.save(review);	
 //			Review review= new Review(1,1,786,"good",3,null,null);
 			Review reviewUpdate = new Review(4,"Bad",4);
@@ -66,7 +67,7 @@ public class ReviewTesting {
 	  public void testForGettingAllReviewOfExceptionHAndling() 
 	  {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/review";
+			String url = "http://localhost:8080/review";
 			try {
 				restTemplate.getForEntity(url, String.class);
 				
@@ -84,7 +85,7 @@ public class ReviewTesting {
 	  public void testForGettingSpecificReviewOfExceptionHAndling() 
 	  {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/review/product/33";
+			String url = "http://localhost:8080/review/product/33";
 			try {
 				
 				restTemplate.getForEntity(url, String.class);

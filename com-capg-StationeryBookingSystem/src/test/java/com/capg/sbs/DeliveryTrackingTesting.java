@@ -17,6 +17,7 @@ import com.capg.sbs.entity.DeliveryTracking;
 import com.capg.sbs.entity.Login2;
 import com.capg.sbs.entity.Product;
 import com.capg.sbs.entity.ProductBooking;
+import com.capg.sbs.entity.User;
 import com.capg.sbs.repository.DeliveryTrackingRepository;
 import com.capg.sbs.service.DeliveryTrackingService;
 
@@ -72,32 +73,32 @@ public class DeliveryTrackingTesting {
 	  public void addDeliveryStatusTest() 
 	     {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/deliverytracking";
+			String url = "http://localhost:8080/deliverytracking";
 			
-			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
+			Product product = new Product(6,"pencil","Dark","Apsara",10.0,48,"N",null,null,null);
+			User user = new User(1L,"admin" , "soniya" ,"Arti" ,"Saroj", "ROLE_ADMIN");
 			
-			ProductBooking productBooking= new ProductBooking(30,3,"ghatkoper","mumbai","maharshtra",3434,"PENDING","N",null,null,null,product,login);
-			DeliveryTracking deliveryTracking = new DeliveryTracking("NOT APPROVED",productBooking,null);
+			ProductBooking productBooking= new ProductBooking(50,4,"Room no 105 ,ghatkoper","Mumbai","Maharshtra",400070,"CONFIRM","N",null,null,null,product,user);
+			DeliveryTracking deliveryTracking = new DeliveryTracking("CONFIRM",productBooking,null);
 			deliveryTrackingRepository.save(deliveryTracking);	
 			DeliveryTracking[] dt = restTemplate.getForObject(url, DeliveryTracking[].class);
 			
-			Assertions.assertThat(dt).extracting(DeliveryTracking :: getDelieveryStatus).contains("NOT APPROVED");
+			Assertions.assertThat(dt).extracting(DeliveryTracking :: getDelieveryStatus).contains("CONFIRM");
 	     }
 	@Test
 	  public void testForDeliveryTrackingUpdate() 
 	   {
 		    RestTemplate restTemplate = new RestTemplate();
-		    String url = "http://localhost:2211/deliverytracking";
-			Product product = new Product(1,"pen","dark","doms",20.1,50,"N",null,null,null);
-			Login2 login = new Login2(1,"AartiSA","1234","user","aarti","saroj");
-			ProductBooking productBooking= new ProductBooking(31,3,"ghatkoper","mumbai","maharshtra",3434,"PENDING","N",null,null,null,product,login);
-			DeliveryTracking deliveryTracking = new DeliveryTracking("NOT APPROVED",productBooking,null);
+		    String url = "http://localhost:8080/deliverytracking";
+		    Product product = new Product(6,"pencil","Dark","Apsara",10.0,48,"N",null,null,null);
+			User user = new User(1L,"admin" , "soniya" ,"Arti" ,"Saroj", "ROLE_ADMIN");
+			ProductBooking productBooking= new ProductBooking(50,4,"Room no 105 ,ghatkoper","Mumbai","Maharshtra",400070,"CONFIRM","N",null,null,null,product,user);
+			DeliveryTracking deliveryTracking = new DeliveryTracking("CONFIRM",productBooking,null);
 			deliveryTrackingRepository.save(deliveryTracking);	
-			DeliveryTracking deliveryTrackingUpdate = new DeliveryTracking(61,"Packed",null);
+			DeliveryTracking deliveryTrackingUpdate = new DeliveryTracking(9,"Delivered",null);
 			deliveryTrackingService.update(deliveryTrackingUpdate);
 			DeliveryTracking[] dt = restTemplate.getForObject(url, DeliveryTracking[].class);
-			Assertions.assertThat(dt).extracting(DeliveryTracking :: getDelieveryStatus).contains("Packed");
+			Assertions.assertThat(dt).extracting(DeliveryTracking :: getDelieveryStatus).contains("Delivered");
 
 //			Review review= new Review(1,1,786,"good",3,null,null);
 //			reviewRepository.setReviewByProductIdAndUserId(product, login, "bad", 4, null);	
@@ -109,7 +110,7 @@ public class DeliveryTrackingTesting {
 	  public void testForGettingAllBookingForExceptionHAndling() 
 	  {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/";
+			String url = "http://localhost:8080/";
 			try {
 				restTemplate.getForEntity(url, String.class);
 				
@@ -125,7 +126,7 @@ public class DeliveryTrackingTesting {
 	  public void testForGettingSpecificBookingIdOfExceptionHAndling() 
 	  {
 		    RestTemplate restTemplate = new RestTemplate();
-			String url = "http://localhost:2211/DeliveryTracking/998";
+			String url = "http://localhost:8080/DeliveryTracking/998";
 			try {
 				restTemplate.getForEntity(url, String.class);
 				
