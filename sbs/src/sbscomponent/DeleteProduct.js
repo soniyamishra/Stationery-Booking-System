@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import SearchBox from './SearchBox';
+import authHeader from "../services/auth-header";
 
 //import {BrowserRouter as Router,Route,Link ,NavLink} 
 //from "react-router-dom";
@@ -48,7 +49,7 @@ class DeleteProduct extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:2211/product/allproduct`).then((responseData) => {
+        axios.get(`http://localhost:8080/product/allproduct`, { headers: authHeader() }).then((responseData) => {
             console.log(responseData);
             var data = responseData.data;
 				
@@ -66,6 +67,18 @@ class DeleteProduct extends React.Component {
         })
     }
 
+    componentDidUpdate(){
+        axios.get(`http://localhost:8080/product/allproduct`, { headers: authHeader() }).then((responseData) => {
+            console.log(responseData);
+            this.setState({ product: responseData.data })
+
+        }).catch((error) => {
+            console.log("Some error in reading the data ");
+            this.setState({ errMsg: "Error In Reading product Data" })
+        })
+
+    }
+
     delete = (id) => {//(id){
         alert(id)
 
@@ -74,8 +87,8 @@ class DeleteProduct extends React.Component {
         
             if(product.productId == id){
                 console.log(product);
-                const url =`http://localhost:2211/product/delete/`;
-                axios.put((url),{ ...product })
+                const url =`http://localhost:8080/product/delete/`;
+                axios.put((url),{ ...product }, { headers: authHeader() })
                 .then((responseEmpData) => {
                             console.log(responseEmpData);
                 })
@@ -87,7 +100,7 @@ class DeleteProduct extends React.Component {
                 break;
             }
         }
-        axios.get(`http://localhost:2211/product/allproduct`).then((responseData) => {
+        axios.get(`http://localhost:8080/product/allproduct`, { headers: authHeader() }).then((responseData) => {
             console.log(responseData);
             this.setState({ product: responseData.data })
 

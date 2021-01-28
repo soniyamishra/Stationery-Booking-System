@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import authHeader from "../services/auth-header";
 
 export class UpdateDeliveryStatus extends Component
 {
@@ -15,7 +15,7 @@ export class UpdateDeliveryStatus extends Component
   componentDidMount()
     {
             console.log(" Update Status componentDidMount excecuted");
-            axios.get(`http://localhost:2211/deliverytracking`)
+            axios.get(`http://localhost:8080/deliverytracking`, { headers: authHeader() })
             .then((responseDeliveryData)=>{console.log(responseDeliveryData);
             this.setState({AllDeliveryData:responseDeliveryData.data})
             })

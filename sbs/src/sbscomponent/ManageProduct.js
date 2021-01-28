@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import SearchBox from './SearchBox';
-
+import authHeader from "../services/auth-header";
 //import {BrowserRouter as Router,Route,Link ,NavLink} 
 //from "react-router-dom";
 import axios from "axios";
@@ -48,7 +48,7 @@ class ManageProduct extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:2211/product/allproduct`).then((responseData) => {
+        axios.get(`http://localhost:8080/product/allproduct`, { headers: authHeader() }).then((responseData) => {
             console.log(responseData);
             var data = responseData.data;
 				

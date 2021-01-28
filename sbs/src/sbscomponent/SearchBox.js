@@ -1,5 +1,5 @@
 import React from 'react';
-
+import authHeader from "../services/auth-header";
 const SearchBox = (props) =>{
     return(
 <div class="form-outline">

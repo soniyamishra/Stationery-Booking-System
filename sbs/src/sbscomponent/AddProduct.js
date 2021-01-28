@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import authHeader from "../services/auth-header";
 //import {BrowserRouter as Router,Route,Link ,NavLink} 
 //from "react-router-dom";
 //import axios from "axios";
@@ -138,13 +139,13 @@ class AddProduct extends React.Component
         // }
        else
        {
-        axios.post(`http://localhost:2211/product`, {
+        axios.post(`http://localhost:8080/product`, {
             productName: this.state.productName,
             productModel: this.state.productModel,
             productBrand: this.state.productBrand,
             productPrice: this.state.productPrice,
             productCount: this.state.productCount,
-          })
+          }, { headers: authHeader() })
           .then(function (response) {
             console.log(response);
             alert("Product is added successfully");
@@ -162,14 +163,14 @@ class AddProduct extends React.Component
                     productUpdatedAt : null,
                     productDeletedFlag : 'N',
                 } )
-              }
-          )
-          .catch(function (error) {
-             alert("Some thing went wrong !.. 'Invalid Data or network issue'")
-          })
-        }
-     
-    }
+            }
+        )
+        .catch(function (error) {
+           alert("Some thing went wrong !.. 'Invalid Data or network issue'")
+        })
+      }
+   
+  }
 
     render(){
 

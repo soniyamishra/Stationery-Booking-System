@@ -1,22 +1,26 @@
 import React,{Component} from 'react';
 //import ReactDOM from 'react-dom';
 import axios from 'axios';
+import authHeader from "../services/auth-header";
 
 export class ViewDeliveryStatus extends Component{
   
   constructor(props)
     {
         super(props); 
-        this.state={AllDeliveryData:[]
+        this.state={AllDeliveryData:[],
+          currentUser:JSON.parse(localStorage.getItem("user")),
         }
     }
    
   componentDidMount()
     {
             console.log(" Add product componentDidMount excecuted");
-            axios.get(`http://localhost:2211/deliverytracking`)
+            axios.get(`http://localhost:8080/deliverytracking/userid/${this.state.currentUser.id}`, { headers: authHeader() })
             .then((responseDeliveryData)=>{console.log(responseDeliveryData);
             this.setState({AllDeliveryData:responseDeliveryData.data})
+            console.log(this.state.AllDeliveryData)
+            console.log(this.state.currentUser.id)
             })
             .catch((error)=>{console.log("Some error in product read data ");
             })

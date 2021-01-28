@@ -23,6 +23,9 @@ class SideBar extends React.Component
         return(<div>
             <Router>
             <div className="sidenav">
+                <li className="navbar-brand">
+                    <a className="nav-link active text-white" aria-current="page" href="#"><i className="fas fa-swatchbook"> SBS</i></a>
+                </li>
                 <NavLink exact to="/AddProduct">Add Product</NavLink>   
                 <NavLink exact to="/ManageProduct"> Update Products</NavLink>
                 <NavLink exact to="/DeleteProduct"> Delete Products</NavLink>
@@ -43,8 +46,8 @@ class SideBar extends React.Component
                 <Route path="/UpdateDeliveryComponent/:id" component={UpdateDeliveryComponent}></Route>
                 <Route path="/DeleteProduct" component={DeleteProduct}></Route>
                 <Route path="/Updatecount/:id" component={Updatecount}></Route>
-                <Route path="/ExportExcel" component={ExportExcel}></Route>
-                <Route path="/src/ExportPdf" component={ExportPdf}></Route>
+                 <Route path="/ExportExcel" component={ExportExcel}></Route>
+                <Route path="/src/ExportPdf" component={ExportPdf}></Route> 
             </div>
             </Router>
         </div>)

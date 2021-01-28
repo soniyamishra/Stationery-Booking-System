@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import authHeader from "../services/auth-header";
 
 export class AddDeliveryStatus extends Component
 {
@@ -14,7 +15,7 @@ export class AddDeliveryStatus extends Component
   componentDidMount()
     {
             console.log(" Add product componentDidMount excecuted");
-            axios.get(`http://localhost:2211/productbooking`)
+            axios.get(`http://localhost:8080/productbooking`, { headers: authHeader() })
             .then((responseDeliveryData)=>{console.log(responseDeliveryData);
             this.setState({AllDeliveryData:responseDeliveryData.data})
             })

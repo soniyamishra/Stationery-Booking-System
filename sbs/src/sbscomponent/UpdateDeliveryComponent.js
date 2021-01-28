@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import { Form, Button} from 'react-bootstrap';
-
+import authHeader from "../services/auth-header";
 export class UpdateDeliveryComponent extends Component
 {
   constructor(props)
@@ -20,7 +20,7 @@ export class UpdateDeliveryComponent extends Component
 componentDidMount()
 {
         console.log(this.props.match.params.id);
-        axios.get(`http://localhost:2211/deliverytracking/id/${this.props.match.params.id}`)
+        axios.get(`http://localhost:8080/deliverytracking/id/${this.props.match.params.id}`, { headers: authHeader() })
         .then((responseDeliveryData)=>{console.log(responseDeliveryData);
             this.setState({AllDeliveryData:responseDeliveryData.data
 
@@ -43,12 +43,12 @@ handleChange(event)
   console.log(this.state.AllDeliveryData.delieveryStatus);
 }
 handleSubmit = (event)=>{
-    //event.preventDefault();
-    console.log(`http://localhost:2211/deliverytracking/`);
-    axios.put(`http://localhost:2211/deliverytracking/`, {
+    event.preventDefault();
+    console.log(`http://localhost:8080/deliverytracking/`, { headers: authHeader() });
+    axios.put(`http://localhost:8080/deliverytracking/`, {
        deliveryTrackingId:this.state.AllDeliveryData.deliveryTrackingId,
        delieveryStatus:this.state.delieveryStatus
-      })
+      }, { headers: authHeader() })
       .then((response)=> {
         console.log(response);
       })

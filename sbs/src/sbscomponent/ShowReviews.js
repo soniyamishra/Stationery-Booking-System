@@ -2,7 +2,7 @@ import React from "react";
 import axios  from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button ,Link,NavLink} from 'react-router-dom';
-
+import authHeader from "../services/auth-header";
 class ShowReviews extends React.Component
 {   
   //  state = { review: { login: {},product: {},},};
@@ -13,7 +13,7 @@ class ShowReviews extends React.Component
   }   
   
   componentDidMount(){
-    axios.get(`http://localhost:2211/review/product/${this.props.match.params.id}`).then((responseData) => {
+    axios.get(`http://localhost:8080/review/product/${this.props.match.params.id}`, { headers: authHeader() }).then((responseData) => {
             console.log(responseData);
             this.setState({ AllBooking: responseData.data })
             // console.log(product.productId);
@@ -62,7 +62,7 @@ class ShowReviews extends React.Component
       (reviewList,index)=>
        {
         return (<tr key={reviewList.reviewId}>
-          <td>{reviewList.login.username}</td>
+          <td>{reviewList.user.username}</td>
           <td>{reviewList.reviewComment}</td>
           {/* <td>{reviewList.product.productId}</td> */}
           <td>{reviewList.ratingNumber}</td>

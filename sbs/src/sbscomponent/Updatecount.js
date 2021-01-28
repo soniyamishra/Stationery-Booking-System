@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import authHeader from "../services/auth-header";
 
 class Updatecount extends React.Component {
     constructor(props) {
@@ -34,7 +34,7 @@ class Updatecount extends React.Component {
 
 
     componentDidMount() {
-        axios.get(`http://localhost:2211/product/${this.props.match.params.id}`).then((responseData) => {
+        axios.get(`http://localhost:8080/product/${this.props.match.params.id}`, { headers: authHeader() }).then((responseData) => {
             console.log(responseData);
             this.setState({ product: responseData.data })
 
@@ -92,14 +92,14 @@ class Updatecount extends React.Component {
                 "productCount" + this.state.productCount,
                 "productUpdatedAt" + "2021-01-21T17:46:52.29678"
             )
-            const url = `http://localhost:2211/product/update/`;
+            const url = `http://localhost:8080/product/update/`;
             axios.put(url, {
                 productName: this.state.product.productName,
                 productModel: this.state.product.productModel,
                 productBrand: this.state.product.productBrand,
                 productPrice: this.state.productPrice,
                 productCount: this.state.productCount,
-            }).then((responseEmpData) => {
+            }, { headers: authHeader() }).then((responseEmpData) => {
                 console.log(responseEmpData);
                 alert("Updated Successfully");
                 this.props.history.push("/ManageProduct");

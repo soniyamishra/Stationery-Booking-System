@@ -3,22 +3,25 @@ import axios  from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from "react-bootstrap/Modal";
 import { Form, Button ,Link} from 'react-bootstrap';
+import authHeader from "../services/auth-header";
+
+
 
 class AddReview extends React.Component
 {   
-  
+    
   state = {
          reviewComment: "",
          ratingNumber: "",
-         product: [],
-         userId:1,
+         product: [],        
          productId:"",
-         login:[]
-          
+         user:[],
+         id:'',
+         currentUser:JSON.parse(localStorage.getItem("user")),
       };
 
       componentDidMount() {
-            axios.get(`http://localhost:2211/product/${this.props.match.params.id}`).then((responseData) => {
+            axios.get(`http://localhost:8080/product/${this.props.match.params.id}`, { headers: authHeader() }).then((responseData) => {
                 console.log(responseData);
                 this.setState({ product: responseData.data })
         
@@ -30,6 +33,8 @@ class AddReview extends React.Component
             this.handleChange=this.handleChange.bind(this);
             this.handleSubmit=this.handleSubmit.bind(this);
         }
+        
+
   handleChange(event)
        {   
           this.setState({
@@ -48,21 +53,30 @@ class AddReview extends React.Component
         product: {
         productId: this.state.product.productId,
         },
-        login: {
-        userId:1,
+        user: {
+        id: this.state.currentUser.id,
 
         },
+        
        };
+
+
+       console.log("========"+this.state.currentUser.id);
+       //console.log("========"+this.state.currentUser.user.username);
+
 
     //    =====================================U have not purchased this product==========
 
     await axios
-      .post("http://localhost:2211/review", AllData)
-      .then((data) => {})
+      .post("http://localhost:8080/review", AllData, { headers: authHeader() })
+      .then(function (response) {
+        console.log(response);
+        alert(response.data);
+      })
       .catch((error) => {
-      alert(error.response.data.error);
+      alert("You are unauthorised to give review to this product..");
       });
-      alert("Your Review has Added");
+     
       this.props.history.push("/ShowAllProduct")
       console.log(this.state.product.productId);
       // console.log(this.state.product);

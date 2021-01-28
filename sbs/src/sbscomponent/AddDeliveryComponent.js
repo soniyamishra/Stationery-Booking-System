@@ -1,15 +1,20 @@
 import React,{Component} from 'react';
 //import ReactDOM from 'react-dom';
 import axios from 'axios';
+import authHeader from "../services/auth-header";
 
 export class AddDeliveryComponent extends Component{
 
-    state = {
+    constructor(props)
+    {
+        super(props);
+        this.state = {
         bookingId: "",
         delieveryStatus: "",
         productBooking: [],    
         
     };
+}
 
     handleChange(event)
     {   
@@ -22,7 +27,7 @@ export class AddDeliveryComponent extends Component{
     componentDidMount()
 {
         console.log(this.props.match.params.id);
-        axios.get(`http://localhost:2211/productbooking/id/${this.props.match.params.id}`)
+        axios.get(`http://localhost:8080/productbooking/id/${this.props.match.params.id}`, { headers: authHeader() })
         .then((productBookingData)=>{console.log(productBookingData);
             this.setState({productBooking:productBookingData.data 
             })
@@ -57,6 +62,15 @@ export class AddDeliveryComponent extends Component{
 
     handleSubmit = async (event) => {
         event.preventDefault();
+
+        if(this.state.delieveryStatus === "")
+         {     
+              
+             alert("All Field are mandatory")
+            
+         }
+         else
+         {
         let AllDelivery = {
             delieveryStatus:this.state.delieveryStatus,
             productBooking:{
@@ -64,17 +78,60 @@ export class AddDeliveryComponent extends Component{
             }
         };
         await axios
-        .post("http://localhost:2211/deliverytracking", AllDelivery)
-        .then((data) => {
-            alert("Delivery added successfully")
-        })
+        .post("http://localhost:8080/deliverytracking", AllDelivery, { headers: authHeader() })
+        .then(function (response) {
+            console.log(response);
+             alert("Added sucessfully")
+          })
+          .then(
+            ()=>{
+                this.setState( {
+                    delieveryStatus :"",
+              } )
+            }
+        )
         .catch((error) => {
           alert(error.response.data.message);
         });
       console.log(this.state.productBooking);
       console.log(this.state.delieveryStatus);
+    }
     };
 
+    /* handleSubmit = (event)=>{
+        event.preventDefault();
+        console.log(this.state.delieveryStatus + "hujhuui")
+        if(this.state.delieveryStatus === "")
+          {     
+              
+              alert("All Field are mandatory")
+            
+          }
+          else
+          {
+           axios.post(`http://localhost:8080/deliverytracking`, {
+            delieveryStatus:this.state.delieveryStatus,
+            productBooking:{
+                bookingId:this.state.productBooking.bookingId
+            }  
+            }, { headers: authHeader() })
+            .then(function (response) {
+              console.log(response);
+              alert("Delivery is added sucessfully");
+            })
+            .then(
+                ()=>{
+                    this.setState( {
+                        delieveryStatus :"",
+                    } )
+                }
+            )
+            .catch(function (error) {
+               alert("Some thing went wrong !.. 'Invalid Data or network issue'")
+            })
+          }
+       
+      } */
     render()
     {
         return(

@@ -19,9 +19,9 @@ class Navbar extends React.Component
                         <li className="navbar-brand pl-4 ml-4">
                         <NavLink className="nav-link active" aria-current="page" exact to = "/ShowAllProduct">Home</NavLink>
                         </li>
-                        <li className="navbar-brand">
+                        {/* <li className="navbar-brand">
                         <NavLink className="nav-link" exact to = "/SideBar">DashBoard</NavLink>
-                        </li>
+                        </li> */}
                         <li className="navbar-brand">
                         <NavLink className="nav-link" exact to="/ViewBooking">Bookings</NavLink>
                         </li>
@@ -34,9 +34,9 @@ class Navbar extends React.Component
                         <button className="btn btn-outline-light" type="submit">Search</button>
                         </form>
                         </li>
-                        <li className="navbar-brand">
+                        {/* <li className="navbar-brand">
                         <a className="nav-link" href="#">Logout</a>
-                        </li>
+                        </li> */}
                     </ul>
                   
                     </div>

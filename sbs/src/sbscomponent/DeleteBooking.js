@@ -2,6 +2,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import SearchBox from './SearchBox';
+import authHeader from "../services/auth-header";
 
 import axios from "axios";
 class DeleteBooking extends React.Component
@@ -16,7 +17,7 @@ class DeleteBooking extends React.Component
       
     }
     componentDidMount() {
-        axios.get(`http://localhost:2211/productbooking/`).then((responseData) => {
+        axios.get(`http://localhost:8080/productbooking/`, { headers: authHeader() }).then((responseData) => {
             console.log(responseData);
             this.setState({ product_booking: responseData.data })
 
@@ -42,8 +43,8 @@ class DeleteBooking extends React.Component
       
           if(product_booking.bookingId == id){
               console.log(product_booking);
-              const url =`http://localhost:2211/productbooking/delete/`;
-              axios.put((url),{ ...product_booking })
+              const url =`http://localhost:8080/productbooking/delete/`;
+              axios.put((url),{ ...product_booking }, { headers: authHeader() })
               .then((responseData) => {
                           console.log(responseData);
                     alert("Booking Cancel Successfully!")
@@ -57,7 +58,7 @@ class DeleteBooking extends React.Component
               break;
           }
       }
-      axios.get(`http://localhost:2211/productbooking`).then((responseData) => {
+      axios.get(`http://localhost:8080/productbooking`, { headers: authHeader() }).then((responseData) => {
           console.log(responseData);
           this.setState({ product_booking: responseData.data })
 

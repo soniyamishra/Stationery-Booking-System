@@ -2,7 +2,7 @@ import React from "react";
 import axios  from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button ,Link} from 'react-bootstrap';
-
+import authHeader from "../services/auth-header";
 class UpdateReview extends React.Component
 {   
   constructor(props)
@@ -14,6 +14,9 @@ class UpdateReview extends React.Component
 
           productName:"",
           product:[],
+          user:[],
+          id:"",
+          currentUser:JSON.parse(localStorage.getItem("user")),
 
         }
         this.changeComment = this.changeComment.bind(this);
@@ -24,7 +27,7 @@ class UpdateReview extends React.Component
     componentDidMount()
    {
         console.log(this.props.match.params.id);
-        axios.get(`http://localhost:2211/review/${this.props.match.params.id}`)
+        axios.get(`http://localhost:8080/review/${this.props.match.params.id}`, { headers: authHeader() })
         .then((responseReviewData)=>{console.log(responseReviewData);
             this.setState({AllReviewData:responseReviewData.data
 
@@ -54,17 +57,20 @@ class UpdateReview extends React.Component
    {
     //event.preventDefault();
     
-     console.log(`http://localhost:2211/review/update1/`);
-     axios.put(`http://localhost:2211/review/update1/`, {
+     console.log(`http://localhost:8080/review/update/`, { headers: authHeader() });
+     axios.put(`http://localhost:8080/review/update/`, {
      reviewId:this.state.AllReviewData.reviewId,
      reviewComment:this.state.reviewComment,
-     ratingNumber:this.state.ratingNumber
+     ratingNumber:this.state.ratingNumber,
+     user: {
+      id: this.state.currentUser.id,
+     }
      
-   })
-      .then((response)=> {
-        console.log(response);
-        // this.props.history.push("/ShowAllProduct");
-      })
+   }, { headers: authHeader() })
+   .then(function (response) {
+    console.log(response);
+    alert(response.data);
+  })
       .catch((error) =>{
         // alert("You have not updated your review");
         this.props.history.push("/ShowAllProduct");

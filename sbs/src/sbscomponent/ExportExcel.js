@@ -1,7 +1,8 @@
 import React, { Component } from 'react'  
 import axios from 'axios';  
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'; 
- 
+import authHeader from "../services/auth-header";
+
 export class ExportExcel extends Component 
 {  
     constructor(props) 
@@ -14,7 +15,7 @@ export class ExportExcel extends Component
     }  
     componentDidMount()
     {  
-        axios.get('http://localhost:2211/product/allproduct').then(response =>
+        axios.get('http://localhost:8080/product/allproduct', { headers: authHeader() }).then(response =>
         {  
             console.log(response.data);  
             this.setState

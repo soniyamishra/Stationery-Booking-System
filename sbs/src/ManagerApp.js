@@ -1,24 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/SideBar"
+import Navbar from "./sbscomponent/Navbar";
+
 import './sidebar.css';
 import {BrowserRouter as Router,Route,Link ,NavLink ,Redirect}
 from "react-router-dom";
-import ShowAllProduct from "./components/ShowAllProduct";
-import ProductBooking from "./components/ProductBooking";
-import UpdateDeliveryStatus from "./components/UpdateDeliveryStatus";
-import AddDeliveryStatus from "./components/AddDeliveryStatus";
-import ViewBooking from "./components/ViewBooking";
-import DeleteBooking from "./components/DeleteBooking";
-import AddReview from './components/AddReview';
-import UpdateReview from './components/UpdateReview';
-import ShowReviews from './components/ShowReviews';
-import ViewDeliveryStatus from './components/ViewDeliveryStatus';
-import ExportPdf from './ExportPdf';
+import ShowAllProduct from "./sbscomponent/ShowAllProduct";
+import ProductBooking from "./sbscomponent/ProductBooking";
+import UpdateDeliveryStatus from "./sbscomponent/UpdateDeliveryStatus";
+import AddDeliveryStatus from "./sbscomponent/AddDeliveryStatus";
+import ViewBooking from "./sbscomponent/ViewBooking";
+import DeleteBooking from "./sbscomponent/DeleteBooking";
+import AddReview from './sbscomponent/AddReview';
+import UpdateReview from './sbscomponent/UpdateReview';
+import ShowReviews from './sbscomponent/ShowReviews';
+import ViewDeliveryStatus from './sbscomponent/ViewDeliveryStatus';
+// import ExportPdf from './ExportPdf';
+import ManagerSideBar from './sbscomponent/ManagerSideBar'
 
-function App2(props) {
+function ManagerApp(props) {
   return (
     <div>
         <Router>
@@ -28,14 +29,14 @@ function App2(props) {
             <Redirect to="/ShowAllProduct" component={ShowAllProduct}/>
           </Route>
           <Route path="/ShowAllProduct" component={ShowAllProduct}></Route>
-          <Route path="/Sidebar" component={Sidebar}></Route>
+          <Route path="/Sidebar" component={ManagerSideBar}></Route>
           <Route path="/ProductBooking/:id" component={ProductBooking}></Route>
           <Route path="/UpdateDeliveryStatus" component={UpdateDeliveryStatus}></Route>
           <Route path="/AddDeliveryStatus" component={AddDeliveryStatus}></Route>
           <Route path="/ViewBooking" component={ViewBooking}></Route>
           <Route path="/products/delete/:id"   component={DeleteBooking}     />
           <Route path="/ViewDeliveryStatus" component={ViewDeliveryStatus}></Route>
-          <Route path="/ExportPdf" component={ExportPdf}></Route>
+          {/* <Route path="/ExportPdf" component={ExportPdf}></Route> */}
           <Route path="/DeleteBooking" component={DeleteBooking}></Route>
           <Route path="/AddReview/:id" component={AddReview}></Route>
           <Route path="/ShowReviews/:id" component={ShowReviews}></Route>
@@ -48,4 +49,4 @@ function App2(props) {
   );
 }
 
-export default App2;
+export default ManagerApp;

@@ -2,7 +2,8 @@
 import React from "react";
 import axios  from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logindata from "./login";
+// import logindata from "./login";
+import authHeader from "../services/auth-header";
 import { Form, Button} from 'react-bootstrap';
 
 class ProductBooking extends React.Component
@@ -16,13 +17,15 @@ class ProductBooking extends React.Component
       zipcode:"",
       productId: "",
       product: [],
-      userId:1,
-      login:[]
+      
+      user:[],
+      currentUser:JSON.parse(localStorage.getItem("user")),
+
       
   };
 
   componentDidMount() {
-    axios.get(`http://localhost:2211/product/${this.props.match.params.id}`).then((responseData) => {
+    axios.get(`http://localhost:8080/product/${this.props.match.params.id}`, { headers: authHeader() }).then((responseData) => {
         console.log(responseData);
         this.setState({ product: responseData.data })
 
@@ -30,7 +33,6 @@ class ProductBooking extends React.Component
         console.log("Some error in reading the data ");
         this.setState({ errMsg: "Error In Reading product Data" })
     })
-    alert(`${this.state.product.productId}`)
     this.handleChange=this.handleChange.bind(this);
     this.handleSubmit=this.handleSubmit.bind(this);
 }
@@ -40,7 +42,7 @@ handleChange(event)
     this.setState({
         ...this.state,
         [event.target.name] : event.target.value,
-        userId:1,
+        id:this.state.currentUser.id,
         
     })
 
@@ -59,13 +61,13 @@ handleChange(event)
       product: {
         productId: this.state.product.productId,
       },
-      login: {
-        userId:1,
+      user: {
+        id:this.state.currentUser.id,
       },
     };
 
     await axios
-      .post("http://localhost:2211/productbooking", Allbooking)
+      .post("http://localhost:8080/productbooking", Allbooking, { headers: authHeader() })
       .then((data) => {
       alert("BOOKING SUCCESSFULY!")
       this.props.history.push("/ViewBooking")
@@ -74,9 +76,9 @@ handleChange(event)
         alert(error.response.data.message);
       });
     console.log(this.state.product.productId);
-    console.log(this.state.login.userId);
+    console.log(this.state.user.id);
     console.log(this.state.product);
-    console.log(this.state.login);
+    console.log(this.state.user);
   };
   
     
@@ -90,7 +92,7 @@ handleChange(event)
             </div>
             <div class="card-body"></div>
             <form className="row g-3" onSubmit={this.handleSubmit}  >
-                  <label for="rproductQuantity" className="form-label">Enter your Comment</label>
+                  <label for="rproductQuantity" className="form-label">Product Quantity</label>
                    <input type="number" 
                    className="form-control" 
                    id="productQuantity" 
@@ -100,7 +102,7 @@ handleChange(event)
                    required 
                    pattern="[0-9\s]+"/>
                    
-                   <label for="address" className="form-label">Enter Rating Number</label>
+                   <label for="address" className="form-label">Address</label>
                    <input type="text" 
                    className="form-control" 
                    id="address"
@@ -110,7 +112,7 @@ handleChange(event)
                    required 
                    pattern="[A-Za-z\s]+" />   
 
-                  <label for="city" className="form-label">Enter city</label>
+                  <label for="city" className="form-label">City</label>
                    <input type="text" 
                    className="form-control" 
                    id="city"
@@ -121,7 +123,7 @@ handleChange(event)
                    pattern="[A-Za-z\s]+" /> 
 
 
-                  <label for="state" className="form-label">Enter state</label>
+                  <label for="state" className="form-label">State</label>
                    <input type="text" 
                    className="form-control" 
                    id="state"
@@ -131,7 +133,7 @@ handleChange(event)
                    required 
                    pattern="[A-Za-z\s]+" /> 
 
-                    <label for="zipcode" className="form-label">Enter zipcode</label>
+                    <label for="zipcode" className="form-label">Zipcode</label>
                    <input type="text" 
                    className="form-control" 
                    id="zipcode"
@@ -143,7 +145,7 @@ handleChange(event)
                     /> 
 
               <div className ="col-2">
-                   <button className="btn btn-primary"   type="submit">Book</button>
+                   <button className="btn btn-primary"   type="submit">Place Order</button>
               </div>      
             </form>
          </div>
